@@ -1,0 +1,14 @@
+@import "stylesheet/variables";
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: $clr-body url('../public/images/background-image.png') no-repeat bottom right fixed;
+}
+
+#app {
+  padding: 0 15%;
+}

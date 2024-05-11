@@ -1,0 +1,40 @@
+@import "../../stylesheet/variables";
+
+$image-size: 15%;
+
+.post-wall {
+
+  background-color: #323232;
+  color: white;
+  //height: 100vh;
+
+  .post {
+    background-color: $clr-black;
+    padding: $indent-little $indent-small;
+    border-bottom: 2px solid white;
+
+    .content, .images {
+      margin-bottom: $indent-little;
+    }
+
+    .images {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+
+      img {
+        width: $image-size;
+        transition: 0.1s ease;
+        &:hover {
+          opacity: 0.8;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .datetime {
+      text-align: right;
+    }
+  }
+
+}
