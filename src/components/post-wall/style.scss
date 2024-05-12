@@ -3,7 +3,6 @@
 $image-size: 15%;
 
 .post-wall {
-
   margin: 0 15%;
   background-color: $clr-dark-gray;
   color: white;
@@ -35,7 +34,7 @@ $image-size: 15%;
         transition: 0.1s ease;
 
         &:hover {
-          opacity: 0.8;
+          //opacity: 0.8;
           cursor: pointer;
         }
       }

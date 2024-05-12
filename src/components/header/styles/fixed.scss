@@ -1,0 +1,16 @@
+@import "../../../stylesheet/variables";
+
+header.fixed {
+  width: 100%;
+  position: fixed;
+  gap: 30px;
+  img {
+    width: 5%;
+    border: 2px solid $clr-theme;
+    box-shadow: none;
+  }
+  h1 {
+    font-size: $font-size-heading1/2;
+  }
+}
+
