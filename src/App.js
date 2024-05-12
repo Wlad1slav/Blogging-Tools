@@ -1,12 +1,13 @@
 import Wall from "./components/post-wall/Wall";
 
 import './App.scss';
+import {Header} from "./components/header/Header";
 
 function App() {
   return (
     <div id='app'>
-      <Wall />
-      <Wall />
+        <Header />
+        <Wall />
     </div>
   );
 }
