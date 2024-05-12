@@ -25,9 +25,28 @@ $image-size: 15%;
       img {
         width: $image-size;
         transition: 0.1s ease;
+
         &:hover {
           opacity: 0.8;
           cursor: pointer;
+        }
+      }
+
+      &.image-1 {
+        img {
+          width: 50%;
+        }
+      }
+
+      &.image-2 {
+        img {
+          width: 40%;
+        }
+      }
+
+      &.image-3 {
+        img {
+          width: 30%;
         }
       }
     }
