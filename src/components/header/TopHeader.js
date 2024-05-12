@@ -1,8 +1,8 @@
 import './styles/top.scss';
 
-export function TopHeader({isDisplayed}) {
+export function TopHeader() {
     return (
-        <header style={!isDisplayed ? {display: "none"} : {}}>
+        <header>
             <img src="/images/avatar.gif" alt="" className="avatar"/>
 
             <div className="personal-info">
@@ -29,12 +29,14 @@ export function TopHeader({isDisplayed}) {
                 </div>
             </div>
 
-            <ul className="links">
-                <h2>Links</h2>
-                <li><a href="#">Github</a> </li>
-                <li><a href="#">Telegram</a> </li>
-                <li><a href="#">Post Backups</a> </li>
-            </ul>
+            <div className='links'>
+                <ul className="links__ul">
+                    <h2>Links</h2>
+                    <li><a href="#">Github</a> </li>
+                    <li><a href="#">Telegram</a> </li>
+                    <li><a href="#">Post Backups</a> </li>
+                </ul>
+            </div>
 
         </header>
     );

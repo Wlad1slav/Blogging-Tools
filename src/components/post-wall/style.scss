@@ -7,6 +7,10 @@ $image-size: 15%;
   background-color: $clr-dark-gray;
   color: white;
 
+  @media only screen and (max-width: 600px) {
+    margin: 0;
+  }
+
   .post {
     background-color: $clr-black;
     padding: $indent-little $indent-small;
@@ -32,6 +36,7 @@ $image-size: 15%;
       img {
         width: $image-size;
         transition: 0.1s ease;
+        max-width: 200px;
 
         &:hover {
           //opacity: 0.8;
@@ -42,18 +47,21 @@ $image-size: 15%;
       &.image-1 {
         img {
           width: 50%;
+          max-width: 600px;
         }
       }
 
       &.image-2 {
         img {
           width: 40%;
+          max-width: 500px;
         }
       }
 
       &.image-3 {
         img {
           width: 30%;
+          max-width: 300px;
         }
       }
     }

@@ -24,7 +24,7 @@ export function Header() {
         <>
             {/*{showFixedHeader ? <FixedHeader /> : <TopHeader /> }*/}
             <FixedHeader isDisplayed={showFixedHeader} />
-            <TopHeader isDisplayed={!showFixedHeader} />
+            <TopHeader />
         </>
     );
 }
