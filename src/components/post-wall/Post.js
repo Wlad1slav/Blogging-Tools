@@ -5,10 +5,15 @@ export function Post({post}) {
         <img src={image} alt=""/>
     );
 
+    const content = post.text.split('\n').map(paragraph =>
+        <p>{paragraph}</p>
+    );
+
     return (
         <div className="post">
+            <h3>{post.title}</h3>
             <div className="content">
-                {post.text}
+                {content}
             </div>
             <div className={
                 [

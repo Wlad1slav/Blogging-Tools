@@ -4,16 +4,21 @@ import './style.scss';
 
 export function Wall() {
     const post = {
-        text: 'Буду тут писати свої нікому непотрібні думки, подалі від людських очів',
-        datetime: '5/11/2024 7:20 PM',
+        title: 'Тестовий пост',
+        text: 'Поки що тестовий пост, переглядаю, як це виглядає все зовні. Наче терпимо (тєрпім), може відступи ще підправлю, збільшу їх. \n' +
+            '\n' +
+            'В планах оформити цей блог в якості набору невеликих додатків: перший СПА на реакті, другий це АПІшка написанная на пайтоні (фастапі), через яку буде відбуватися отримання даних з бд і третій тг бот на нодке з тс, щоб зручно створювати пости через тг і не паритися з тим, щоб постійно заходити в пгпадмін і там щось калякати.\n' +
+            '\n' +
+            'По дизайну я наче вже вирішив, але вибір шрифтів взагалі неостаточний, невпевнений ще з його приводу. Можливо є сенс залишати дефолтний аріал, він якийсь душевний щось. Так буде виглядати ніби порталчик в 2008.',
+        datetime: '5/12/2024 12:46 PM',
         images: [
-            'https://femzai.com/cdn/shop/products/Fashion-Black-White-Wine-Red-Striped-Women-Long-Socks-Sexy-Thigh-High-Nylon-Stockings-Breathable-Over.jpg_640x640_25373e34-b098-4536-989c-ca00296a8a57.jpg?v=1705750085',
             'https://femzai.com/cdn/shop/products/Fashion-Black-White-Wine-Red-Striped-Women-Long-Socks-Sexy-Thigh-High-Nylon-Stockings-Breathable-Over.jpg_640x640_25373e34-b098-4536-989c-ca00296a8a57.jpg?v=1705750085',
         ],
     };
 
     return (
         <div className="post-wall">
+            <Post post={post} />
             <Post post={post} />
         </div>
     );

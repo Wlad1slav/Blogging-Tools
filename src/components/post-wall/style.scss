@@ -4,9 +4,9 @@ $image-size: 15%;
 
 .post-wall {
 
-  background-color: #323232;
+  margin: 0 15%;
+  background-color: $clr-dark-gray;
   color: white;
-  //height: 100vh;
 
   .post {
     background-color: $clr-black;
@@ -15,6 +15,14 @@ $image-size: 15%;
 
     .content, .images {
       margin-bottom: $indent-little;
+
+      p {
+        margin-bottom: $indent-small;
+      }
+    }
+
+    h3 {
+      margin-bottom: $indent-small;
     }
 
     .images {
@@ -53,6 +61,7 @@ $image-size: 15%;
 
     .datetime {
       text-align: right;
+      font-size: $font-size - 4;
     }
   }
 
