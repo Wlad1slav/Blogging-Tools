@@ -1,4 +1,4 @@
-from repository import Repository
+from database.repository import Repository
 
 
 class Model:
