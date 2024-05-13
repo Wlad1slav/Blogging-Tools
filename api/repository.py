@@ -45,7 +45,7 @@ class Repository:
             cursor.execute(query, parameters)
             if edit:
                 self._connection.commit()
-            return cursor.fetchall()
+            return cursor.fetchall() if not edit else None  # fetchall() only for SELECT queries
 
 
 if __name__ == '__main__':
