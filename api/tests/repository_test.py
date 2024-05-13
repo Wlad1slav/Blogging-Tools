@@ -1,5 +1,5 @@
 import unittest
-from repository import Repository
+from database.repository import Repository
 
 """
 Tests for Repository class

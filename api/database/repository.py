@@ -41,7 +41,7 @@ class Repository:
 
     def request(self, query, parameters=None, edit=False):
         # The method makes a query to the database
-        with self._connection.cursor() as cursor:
+        with self._connection.cursor(dictionary=True) as cursor:
             cursor.execute(query, parameters)
             if edit:
                 self._connection.commit()
