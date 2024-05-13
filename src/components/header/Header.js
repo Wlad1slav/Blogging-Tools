@@ -1,10 +1,12 @@
 import {TopHeader} from "./TopHeader";
 import {FixedHeader} from "./FixedHeader";
 import {useEffect, useState} from "react";
+import axios from "axios";
 
 export function Header() {
 
     const [showFixedHeader, setShowFixedHeader] = useState(false);
+    const [blogInfo, setBlogInfo] = useState({});
 
     const handleScroll = () => {
         if (window.scrollY > 350) {
@@ -15,7 +17,18 @@ export function Header() {
     };
 
     useEffect(() => {
+        // Set the action when the viewer scrolls the page
         window.addEventListener('scroll', handleScroll);
+
+        // Get blog info via api
+        axios.get(process.env.REACT_APP_API_BASE_URL + '/personal_information')
+            .then(async response => {
+                response.data.links = JSON.parse(response.data.links); // Converting a json string to an object
+                setBlogInfo(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
 
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
@@ -23,8 +36,8 @@ export function Header() {
     return (
         <>
             {/*{showFixedHeader ? <FixedHeader /> : <TopHeader /> }*/}
-            <FixedHeader isDisplayed={showFixedHeader} />
-            <TopHeader />
+            <FixedHeader isDisplayed={showFixedHeader} info={blogInfo} />
+            <TopHeader info={blogInfo} />
         </>
     );
 }

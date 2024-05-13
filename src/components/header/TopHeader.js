@@ -1,40 +1,44 @@
 import './styles/top.scss';
+import {useEffect, useState} from "react";
 
-export function TopHeader() {
+export function TopHeader({info}) {
+
+    // Converting the blog description to several paragraphs
+    const description = info && info.description ? info.description.split('\n').map((paragraph, index) =>
+        <p key={index}>{paragraph}</p>
+    ) : '';
+
+    // Converting the bio to several paragraphs
+    const bio = info && info.bio ? info.bio.split('\n').map((paragraph, index) =>
+        <p key={index}>{paragraph}</p>
+    ) : '';
+
+    // Converting an object with links to an ul-list of links
+    const links = info && info.links ? Object.keys(info.links).map((key) => (
+        <li key={key}><a href={info.links[key]}>{key}</a></li>
+    )) : '';
+
     return (
         <header>
             <img src="/images/avatar.gif" alt="" className="avatar"/>
 
             <div className="personal-info">
-                <h1>Rasik</h1>
+                <h1>{info.nickname}</h1>
 
                 <p className="blog-description">
-                    Буду тут писати свої нікому непотрібні думки, подалі від людських очів.
+                    {description}
                 </p>
 
                 <div className="bio">
                     <h2>Bio</h2>
-                    <p>
-                        Веб програміст з Криму, проживаю в Києві. Переконаний зрадойоб і монархіст, трошки християнин і дуже бі.
-                        Етнічний українець без домішок, але є мрія стати євреєм (чи хоча б знайти єврейські коріння).
-                    </p>
-
-                    <p>
-                       Support: 🇹🇼 🏴󠁩󠁱󠁫󠁲󠁿 🇮🇱 🇺🇸 🏳️‍🌈 🏳️‍⚧️
-                    </p>
-
-                    <p>
-                        KILL WITH FIRE: 🇸🇺 🇷🇺 🇨🇳 🏴󠁵󠁳󠁣󠁡󠁿
-                    </p>
+                    {bio}
                 </div>
             </div>
 
             <div className='links'>
                 <ul className="links__ul">
                     <h2>Links</h2>
-                    <li><a href="#">Github</a> </li>
-                    <li><a href="#">Telegram</a> </li>
-                    <li><a href="#">Post Backups</a> </li>
+                    {links}
                 </ul>
             </div>
 
