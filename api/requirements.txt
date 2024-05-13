@@ -2,4 +2,5 @@ mysql~=0.0.3
 mysql-connector-python~=8.2.0
 python-dotenv
 fastapi
+fastapi[all]
 uvicorn
