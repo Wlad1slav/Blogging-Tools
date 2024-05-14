@@ -14,7 +14,6 @@ header {
 
   background-color: $clr-dark-gray;
   border-bottom: 4px solid $clr-black;
-  color: white;
 
   @media only screen and (max-width: 600px) {
     background: $clr-dark-gray url('../../../../public/images/background-image.png') no-repeat bottom right fixed;
@@ -57,11 +56,21 @@ header {
 
   .blog-description {
     margin-bottom: $indent-small;
+
+    p {
+      font-size: $font-size - 5px;
+    }
   }
 
-  .bio p {
-    font-size: $font-size - 2;
-    margin-bottom: $indent-little;
+  .bio {
+    p {
+      margin-bottom: $indent-little;
+      font-size: $font-size - 2;
+    }
+    h2 {
+      border-bottom: 2px solid $clr-theme;
+      margin-bottom: $indent-little;
+    }
   }
 
   .links {
