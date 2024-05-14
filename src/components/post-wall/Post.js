@@ -1,7 +1,7 @@
 export function Post({post}) {
 
     // Converting an array of image references to an array of image elements
-    const images = post.images?.map(image =>
+    const images = JSON.parse(post?.images ?? '[]').map(image =>
         <img src={image} alt=""/>
     );
 
