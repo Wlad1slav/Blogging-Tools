@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from models.personal_information import PersonalInformation
+from models.post import Post
 
 """
 Starting the router:
@@ -16,7 +17,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Allows all origins from localhost:3000
+    allow_origins=["*"],  # Allows all origins
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
@@ -26,8 +27,12 @@ app.add_middleware(
 @app.get("/personal_information")
 async def get_personal_information():
     result = {}
-    personal_information = PersonalInformation()
-    for setting in personal_information.read_all():
+    for setting in PersonalInformation.read_all():
         # A single dictionary is created from an array of dictionaries (strings from the database).
         result[setting['key']] = setting['value']
     return result
+
+
+@app.get("/posts")
+async def get_posts():
+    return Post.read_all()
