@@ -1,25 +1,31 @@
 import Post from "./Post";
 
 import './style.scss';
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 export function Wall() {
-    const post = {
-        title: 'Тестовий пост',
-        text: 'Поки що тестовий пост, переглядаю, як це виглядає все зовні. Наче терпимо (тєрпім), може відступи ще підправлю, збільшу їх. \n' +
-            '\n' +
-            'В планах оформити цей блог в якості набору невеликих додатків: перший СПА на реакті, другий це АПІшка написанная на пайтоні (фастапі), через яку буде відбуватися отримання даних з бд і третій тг бот на нодке з тс, щоб зручно створювати пости через тг і не паритися з тим, щоб постійно заходити в пгпадмін і там щось калякати.\n' +
-            '\n' +
-            'По дизайну я наче вже вирішив, але вибір шрифтів взагалі неостаточний, невпевнений ще з його приводу. Можливо є сенс залишати дефолтний аріал, він якийсь душевний щось. Так буде виглядати ніби порталчик в 2008.',
-        datetime: '5/12/2024 12:46 PM',
-        images: [
-            'https://femzai.com/cdn/shop/products/Fashion-Black-White-Wine-Red-Striped-Women-Long-Socks-Sexy-Thigh-High-Nylon-Stockings-Breathable-Over.jpg_640x640_25373e34-b098-4536-989c-ca00296a8a57.jpg?v=1705750085',
-        ],
-    };
+
+    const [gotPosts, setGotPosts] = useState();
+
+    useEffect(() => {
+        // Get all posts via api
+        axios.get(process.env.REACT_APP_API_BASE_URL + '/posts')
+            .then(response => {
+                setGotPosts(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }, []);
+
+    const posts = (gotPosts ?? [{}]).map(post =>
+        <Post post={post} />
+    );
 
     return (
         <div className="post-wall">
-            <Post post={post} />
-            <Post post={post} />
+            {posts}
         </div>
     );
 }
