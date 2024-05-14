@@ -2,7 +2,10 @@ from database.repository import Repository
 
 
 class Model:
-    def create_row(self, row):
+    table = None
+
+    @classmethod
+    def create_row(cls, row):
         """
         A method for creating a new row
         :param row: A dictionary that must contain a column as a key and a value for that column as a key value.
@@ -15,7 +18,7 @@ class Model:
         # length of the array of dictionary keys, which is specified as a row to be created
         placeholders = ', '.join(['%s'] * len(row))
 
-        query = f'INSERT INTO `{self.table}` ({columns}) VALUES ({placeholders})'
+        query = f'INSERT INTO `{cls.table}` ({columns}) VALUES ({placeholders})'
         repository.request(
             query=query,
             parameters=list(row.values()),
@@ -23,7 +26,8 @@ class Model:
         )
         repository.close_connection()
 
-    def update_row(self, column, new_value, row_id=None, row_key=None):
+    @classmethod
+    def update_row(cls, column, new_value, row_id=None, row_key=None):
         """
         A method for editing a string specified by a key or id
         :param column: The column in which you need to make changes
@@ -40,7 +44,7 @@ class Model:
         if row_id is not None:
             # Finding for a row by ID and updating it
             repository.request(
-                query='UPDATE `{self.table}` SET `{column}` = %s WHERE `id` = %s',
+                query='UPDATE `{cls.table}` SET `{column}` = %s WHERE `id` = %s',
                 parameters=[new_value, row_id],
                 edit=True
             )
@@ -48,7 +52,7 @@ class Model:
         elif row_key is not None:
             # Finding for a row by KEY and updating it
             repository.request(
-                query=f'UPDATE `{self.table}` SET `{column}` = %s WHERE `key` = %s',
+                query=f'UPDATE `{cls.table}` SET `{column}` = %s WHERE `key` = %s',
                 parameters=[new_value, row_key],
                 edit=True
             )
@@ -61,17 +65,19 @@ class Model:
 
         repository.close_connection()
 
-    def read_all(self):
+    @classmethod
+    def read_all(cls):
         """
         Get all rows from a table
         :return: List of dictionaries containing all rows in the table
         """
         repository = Repository()
-        result = repository.request(query=f'SELECT * FROM `{self.table}`')
+        result = repository.request(query=f'SELECT * FROM `{cls.table}`')
         repository.close_connection()
         return result
 
-    def delete_row(self, row_id=None, row_key=None):
+    @classmethod
+    def delete_row(cls, row_id=None, row_key=None):
         """
         Delete a row from the table
 
@@ -86,7 +92,7 @@ class Model:
         if row_id is not None:
             # Deleting a row by ID
             repository.request(
-                query=f'DELETE FROM `{self.table}` WHERE `id` = %s',
+                query=f'DELETE FROM `{cls.table}` WHERE `id` = %s',
                 parameters=[row_id],
                 edit=True
             )
@@ -94,7 +100,7 @@ class Model:
         elif row_key is not None:
             # Deleting a row by KEY
             repository.request(
-                query=f'DELETE FROM `{self.table}` WHERE `key` = %s',
+                query=f'DELETE FROM `{cls.table}` WHERE `key` = %s',
                 parameters=[row_key],
                 edit=True
             )
