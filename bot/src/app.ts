@@ -6,6 +6,7 @@ import {StartCommand} from "./commands/start.command";
 
 import {Telegraf} from "telegraf";
 import LocalSession from "telegraf-session-local";
+import {PostsCommand} from "./commands/posts.command";
 
 class Bot {
     bot: Telegraf<IBotContext>;
@@ -19,7 +20,10 @@ class Bot {
     }
 
     init() {
-        this.commands = [new StartCommand(this.bot)];
+        this.commands = [
+            new StartCommand(this.bot),
+            new PostsCommand(this.bot, this.configService.get('API_BASE_URL') + '/posts'),
+        ];
         for (const command of this.commands) {
             command.handle();
         }
