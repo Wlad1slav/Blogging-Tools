@@ -1,4 +1,12 @@
+from pydantic import BaseModel
+
 from models.model import Model
+
+
+class PostModel(BaseModel):
+    key: str
+    title: str
+    content: str
 
 
 class Post(Model):
