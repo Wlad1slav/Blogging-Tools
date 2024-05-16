@@ -21,8 +21,8 @@ class Bot {
     init() {
         this.commands = [
             new StartCommand(this.bot),
-            new PostsCommand(this.bot, this.configService.get('API_BASE_URL') + '/posts'),
-            new CreateCommand(this.bot, this.configService.get('API_BASE_URL') + '/post/create', '-')
+            new PostsCommand(this.bot, this.configService),
+            new CreateCommand(this.bot, this.configService)
         ];
         for (const command of this.commands) {
             command.handle();

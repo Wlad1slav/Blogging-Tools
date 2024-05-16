@@ -2,6 +2,7 @@ import {Command} from "./command.class";
 import {Markup, Telegraf} from "telegraf";
 import {IBotContext} from "../context/context.interface";
 import axios from "axios";
+import {IConfigService} from "../config/config.interface";
 
 interface Post {
     id: number;
@@ -12,19 +13,17 @@ interface Post {
 }
 
 export class PostsCommand extends Command {
-    request: string; // The request for which all posts will be received
     private posts: any;
 
-    constructor(bot: Telegraf<IBotContext>, request: string) {
+    constructor(bot: Telegraf<IBotContext>, private readonly configService: IConfigService) {
         super(bot);
-        this.request = request;
     }
 
     handle(): void {
         this.bot.command('posts', (context) => {
 
             // Database query
-            axios.get(this.request)
+            axios.get(this.configService.get('API_BASE_URL') + '/posts')
                 .then(async response => {
 
                     // Receiving all posts in the form of an array of objects
