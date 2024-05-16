@@ -1,3 +1,4 @@
+from typing import List
 from pydantic import BaseModel
 
 from models.model import Model
@@ -7,6 +8,7 @@ class PostModel(BaseModel):
     key: str
     title: str
     content: str
+    images: List[str]  # Assuming images are represented as URLs
 
 
 class Post(Model):

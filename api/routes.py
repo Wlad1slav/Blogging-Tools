@@ -1,8 +1,8 @@
+import json
 from datetime import datetime
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 
 from models.personal_information import PersonalInformation
 from models.post import Post, PostModel
@@ -43,10 +43,9 @@ async def get_posts():
 
 @app.post("/post/create")
 async def create_post(post: PostModel):
-    print('create_post')
-    print(post.key, post.title, post.content)
     Post.create_row({
         'title': post.title,
         'text': post.content,
-        'created_at': datetime.now()
+        'images': json.dumps(post.images),
+        'created_at': datetime.now(),
     })
