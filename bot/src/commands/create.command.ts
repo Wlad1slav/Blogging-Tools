@@ -6,7 +6,6 @@ import axios from "axios";
 import * as fs from 'fs';
 import * as path from 'path';
 import {IConfigService} from "../config/config.interface";
-import {strict} from "assert";
 
 interface RequestData {
     key: string,
@@ -41,8 +40,16 @@ export class CreateCommand extends Command {
             // Setting the status of processing information about a new post
             context.session.state = 'WAITING_FOR_TITLE';
 
+            // Cleaning the image array
+            this.requestData.images = [];
+
             // Proposal to write a title
             await context.reply('Please provide the *title* of the post.', { parse_mode: 'Markdown' });
+        });
+
+        // Reaction to the command /save
+        this.bot.command('save', async (context) => {
+            this.finish(context);
         });
 
         // Reaction to text input after entering a command /create
@@ -56,7 +63,10 @@ export class CreateCommand extends Command {
                 .then(async response => {
                     // After successfully saving the post, a note that
                     // the post is saved is added to the previously sent message
-                    context.editMessageText(this.summary + '\n\n\n✅ *SAVED*', { parse_mode: 'Markdown' });
+
+                    context.editMessageText(this.summary);
+                    context.reply('✅ *SAVED*', {parse_mode: 'Markdown'});
+
                 })
                 .catch(error => {
                     console.log(error);
@@ -92,61 +102,75 @@ export class CreateCommand extends Command {
 
         else if (context.session.state === 'WAITING_FOR_IMAGE') {
 
-            const photos = context.message.photo;
-            const largestPhoto = photos[photos.length - 1];
-            const fileId = largestPhoto.file_id;
+            if (context.message.text !== '-') {
 
-            try {
-                // Get the URL to download the file
-                const fileUrl = await context.telegram.getFileLink(fileId);
+                try {
+                    const photos = context.message.photo;
+                    const largestPhoto = photos[photos.length - 1];
+                    const fileId = largestPhoto.file_id;
 
-                // Setting a unique path to save the file
-                const uniqueFileName = `${fileId}_${Date.now()}.webp`;
+                    // Get the URL to download the file
+                    const fileUrl = await context.telegram.getFileLink(fileId);
 
-                // Setting the path to save the file
-                const filePath = path.join(this.configService.get('STORAGE_DIRECTORY'), uniqueFileName);
+                    // Setting a unique path to save the file
+                    const uniqueFileName = `${fileId}_${Date.now()}.webp`;
 
-                // Downloading a file
-                const response = await axios({
-                    url: fileUrl.href,
-                    method: 'GET',
-                    responseType: 'stream'
-                });
+                    // Setting the path to save the file
+                    const filePath = path.join(this.configService.get('STORAGE_DIRECTORY'), uniqueFileName);
 
-                // Save the file
-                const writer = fs.createWriteStream(filePath);
-                response.data.pipe(writer);
+                    // Downloading a file
+                    const response = await axios({
+                        url: fileUrl.href,
+                        method: 'GET',
+                        responseType: 'stream'
+                    });
 
-                // Waiting for the file to finish writing
-                writer.on('finish', async () => {
-                    console.log('Файл збережено:', filePath);
+                    // Save the file
+                    const writer = fs.createWriteStream(filePath);
+                    response.data.pipe(writer);
 
-                    // The path by which the image will be available
-                    this.requestData.images.push(`${process.env.STORAGE_LINK}/${uniqueFileName}`);
+                    // Waiting for the file to finish writing
+                    writer.on('finish', async () => {
+                        // The path by which the image will be available
+                        this.requestData.images.push(`${process.env.STORAGE_LINK}/${uniqueFileName}`);
 
-                    if (context.session.state !== 'DONE') {
                         // Output of the entire content of the post with a button for confirmation
-                        this.finish(context);
-                    }
+                        // this.finish(context);
 
-                    context.session.state = 'DONE'; // All data was stored
-                });
-                writer.on('error', (err) => {
-                    console.error('Помилка при збереженні файлу:', err);
-                });
+                    });
+                    writer.on('error', (err) => {
+                        console.error('Error saving file:', err);
+                    });
 
-            } catch (e) {
-                console.log(e);
+                } catch (e) {
+                    console.log(e);
+                }
             }
 
-
+            context.reply('Want to /save ?');
+            context.session.state = 'DONE';
         }
 
     }
 
     private finish(context: any) {
+        context.session.state = 'DONE'; // All data was stored
 
-        this.summary = `*Title:* ${this.requestData.title}\n\n*Content:* ${this.requestData.content}\n\n${this.configService.get('DOMAIN')}/${this.requestData.images[0]}`;
+        // Declare imageLinks variable outside the try-catch block
+        let imageLinks: string[] = [];
+
+        // Create a string with links to all images in the post
+        try {
+            imageLinks = this.requestData.images.map(image => {
+                return `${this.configService.get('DOMAIN')}/${image}\n`;
+            });
+        } catch (e) {
+            imageLinks = [];
+        }
+
+        this.summary = `Title: ${this.requestData.title}`
+            + `\n\nContent: ${this.requestData.content}`
+            + (imageLinks.length > 0 ? `\n\nIMAGES\n${imageLinks.join('')}` : '');
 
         // Output of previously entered data with a button to confirm it
         context.reply(
