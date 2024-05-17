@@ -3,6 +3,7 @@ import {Markup, Telegraf} from "telegraf";
 import {IBotContext} from "../context/context.interface";
 import axios from "axios";
 import {IConfigService} from "../config/config.interface";
+import {IApiRequest} from "./request.interface";
 
 interface Post {
     id: number;
@@ -12,38 +13,41 @@ interface Post {
     images: Array<string>;
 }
 
-export class PostsCommand extends Command {
+export class PostsCommand extends Command implements IApiRequest {
     private posts: any;
+    readonly request: string;
 
     constructor(bot: Telegraf<IBotContext>, private readonly configService: IConfigService) {
         super(bot);
+        this.request = this.configService.get('API_BASE_URL') + '/posts';
+    }
+
+    query(context: any): void {
+        // Database query
+        axios.get(this.request)
+            .then(async response => {
+
+                // Receiving all posts in the form of an array of objects
+                this.posts = response.data;
+
+                // An array with buttons to display a specific post
+                let markups: Array<ReturnType<typeof Markup.button.callback>> = [];
+
+                for (const post of this.posts) {
+                    // Creating an array with all posts
+                    markups.push(Markup.button.callback(`(${post.id.toString()}) ${new Date(post.created_at).toLocaleString()}`, `post_${post.id}`));
+                }
+
+                // Sending posts
+                context.reply('All posts 🙋‍♀️', Markup.inlineKeyboard(markups));
+            })
+            .catch(() => {
+                context.reply('Error fetching posts.');
+            });
     }
 
     handle(): void {
-        this.bot.command('posts', (context) => {
-
-            // Database query
-            axios.get(this.configService.get('API_BASE_URL') + '/posts')
-                .then(async response => {
-
-                    // Receiving all posts in the form of an array of objects
-                    this.posts = response.data;
-
-                    // An array with buttons to display a specific post
-                    let markups: Array<ReturnType<typeof Markup.button.callback>> = [];
-
-                    for (const post of this.posts) {
-                        // Creating an array with all posts
-                        markups.push(Markup.button.callback(`(${post.id.toString()}) ${new Date(post.created_at).toLocaleString()}`, `post_${post.id}`));
-                    }
-
-                    // Sending posts
-                    context.reply('All posts 🙋‍♀️', Markup.inlineKeyboard(markups));
-                })
-                .catch(error => {
-                    context.reply('Error fetching posts.');
-                });
-        });
+        this.bot.command('posts', (context) => this.query(context));
 
         this.bot.action(/post_(\d+)/, (context) => {
             // A function for outputting a specific post
