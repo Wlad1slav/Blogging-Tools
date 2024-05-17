@@ -24,8 +24,8 @@ export function Post({post}) {
                 [
                     'images',
                     (images?.length ?? 0) === 1 ? 'image-1' :
-                        ((images?.length ?? 0) ? 'image-2' :
-                            ((images?.length ?? 0) ? 'image-3' : ''))
+                        ((images?.length ?? 0)  === 2? 'image-2' :
+                            ((images?.length ?? 0) === 3 ? 'image-3' : ''))
                 ].join(' ')
             }>
                 {images}
