@@ -1,11 +1,13 @@
 import json
+import os
 from datetime import datetime
+from dotenv import load_dotenv
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from models.personal_information import PersonalInformation
-from models.post import Post, PostModel
+from models.post import Post, PostCreateModel
 
 """
 Starting the router:
@@ -42,10 +44,13 @@ async def get_posts():
 
 
 @app.post("/post/create")
-async def create_post(post: PostModel):
-    Post.create_row({
-        'title': post.title,
-        'text': post.content,
-        'images': json.dumps(post.images),
-        'created_at': datetime.now(),
-    })
+async def create_post(post: PostCreateModel):
+    if post.key != os.getenv('API_KEY'):
+        raise Exception('Invalid API key')
+    else:
+        Post.create_row({
+            'title': post.title,
+            'text': post.content,
+            'images': json.dumps(post.images),
+            'created_at': datetime.now(),
+        })
