@@ -17,8 +17,8 @@ export class PostsCommand extends Command implements IApiRequest {
     private posts: any;
     readonly request: string;
 
-    constructor(bot: Telegraf<IBotContext>, private readonly configService: IConfigService) {
-        super(bot);
+    constructor(bot: Telegraf<IBotContext>, protected readonly configService: IConfigService) {
+        super(bot, configService);
         this.request = this.configService.get('API_BASE_URL') + '/posts';
     }
 

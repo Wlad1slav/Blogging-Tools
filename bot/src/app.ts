@@ -20,7 +20,7 @@ class Bot {
 
     init() {
         this.commands = [
-            new StartCommand(this.bot),
+            new StartCommand(this.bot, this.configService),
             new PostsCommand(this.bot, this.configService),
             new CreateCommand(this.bot, this.configService)
         ];

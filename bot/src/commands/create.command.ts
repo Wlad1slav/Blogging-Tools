@@ -22,10 +22,12 @@ export class CreateCommand extends Command implements IApiRequest {
     // A string with all the information about the post
     private summary: string = '';
 
+    protected readonly isAdmin: boolean = true;
+
     readonly request: string;
 
-    constructor(bot: Telegraf<IBotContext>, private readonly configService: IConfigService) {
-        super(bot);
+    constructor(bot: Telegraf<IBotContext>, protected readonly configService: IConfigService) {
+        super(bot, configService);
 
         // Data for api request
         this.requestData = {
@@ -40,19 +42,21 @@ export class CreateCommand extends Command implements IApiRequest {
     }
 
     query(context: any): void {
-        axios.post(this.request, this.requestData)
-            .then(async response => {
-                // After successfully saving the post, a note that
-                // the post is saved is added to the previously sent message
+        if (this.hasAccess(context)) {
+            axios.post(this.request, this.requestData)
+                .then(async response => {
+                    // After successfully saving the post, a note that
+                    // the post is saved is added to the previously sent message
 
-                context.editMessageText(this.summary);
-                context.reply('✅ *SAVED*', {parse_mode: 'Markdown'});
+                    context.editMessageText(this.summary);
+                    context.reply('✅ *SAVED*', {parse_mode: 'Markdown'});
 
-            })
-            .catch(error => {
-                console.log(error);
-                context.reply('Error saving post.');
-            });
+                })
+                .catch(error => {
+                    console.log(error);
+                    context.reply('Error saving post.');
+                });
+        }
     }
 
     handle(): void {
@@ -121,7 +125,7 @@ export class CreateCommand extends Command implements IApiRequest {
     }
 
     private async inputImage(context: any): Promise<void> {
-        if (context.message.text !== '-') {
+        if (context.message.text !== '-' && this.hasAccess(context)) {
 
             try {
                 const photos = context.message.photo;
