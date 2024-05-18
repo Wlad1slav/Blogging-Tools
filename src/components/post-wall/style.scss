@@ -22,7 +22,7 @@ $image-size: 15%;
 
       a {
         text-decoration: none;
-        color: transparentize($font-color, 0.5);
+        color: transparentize($font-color, 0.9);
       }
     }
 
@@ -42,9 +42,12 @@ $image-size: 15%;
       display: flex;
       gap: 5px;
       flex-wrap: wrap;
+      align-items: flex-start;
+
+      a { width: $image-size; }
 
       img {
-        width: $image-size;
+        width: 100%;
         transition: 0.1s ease;
         max-width: 200px;
 
@@ -55,22 +58,22 @@ $image-size: 15%;
       }
 
       &.image-1 {
+        a { width: 50%; }
         img {
-          width: 50%;
           max-width: 600px;
         }
       }
 
       &.image-2 {
+        a { width: 40%; }
         img {
-          width: 40%;
           max-width: 500px;
         }
       }
 
       &.image-3 {
+        a { width: 30%; }
         img {
-          width: 30%;
           max-width: 300px;
         }
       }
