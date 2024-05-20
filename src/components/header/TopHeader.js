@@ -1,5 +1,4 @@
 import './styles/top.scss';
-import {useEffect, useState} from "react";
 
 export function TopHeader({info}) {
 

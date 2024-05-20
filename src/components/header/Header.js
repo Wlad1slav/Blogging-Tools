@@ -28,7 +28,7 @@ export function Header() {
             })
             .catch(error => {
                 console.log(error);
-            })
+            });
 
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
