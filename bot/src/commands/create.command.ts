@@ -54,7 +54,7 @@ export class CreateCommand extends Command implements IApiRequest {
                 })
                 .catch(error => {
                     console.log(error);
-                    context.reply('Error saving post.');
+                    context.reply(`Error saving post. ${error.response.data.message}`);
                 });
         }
     }
