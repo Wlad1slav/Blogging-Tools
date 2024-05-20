@@ -1,6 +1,8 @@
 import json
 import os
 from datetime import datetime
+
+import uvicorn
 from dotenv import load_dotenv
 
 from fastapi import FastAPI
