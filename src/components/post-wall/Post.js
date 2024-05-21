@@ -2,8 +2,8 @@ export function Post({post}) {
 
     // Converting an array of image references to an array of image elements
     const images = JSON.parse(post?.images ?? '[]').map(image =>
-        <a href={image}>
-            <img src={image} alt=""/>
+        <a href={process.env.REACT_APP_IMAGES_PATH + image}>
+            <img src={process.env.REACT_APP_IMAGES_PATH + image} alt=""/>
         </a>
     );
 
