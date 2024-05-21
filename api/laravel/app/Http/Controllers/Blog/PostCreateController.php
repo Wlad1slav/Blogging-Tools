@@ -52,8 +52,6 @@ class PostCreateController extends Controller
             }
         }
 
-        date_default_timezone_set(env('TIME_ZONE'));
-
         DB::insert(
             'INSERT INTO `posts` (`title`, `text`, `images`, `created_at`) VALUES (?, ?, ?, ?)',
             [$request['title'] ?? null, $request['content'] ?? '', json_encode($images), date('Y-m-d H:i:s')]

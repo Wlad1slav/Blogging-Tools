@@ -28,6 +28,7 @@ app/Http/Kernel.php
 tests
 phpunit.xml
 config/*
+!config/app.php
 .styleci.yml
 artisan
 routes/channels.php
