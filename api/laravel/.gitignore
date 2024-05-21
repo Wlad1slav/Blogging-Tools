@@ -26,17 +26,11 @@ app/*
 !app/Http
 app/Http/Middleware
 app/Http/Kernel.php
-vite.config.js
 tests
 phpunit.xml
 config/*
-resources
 .styleci.yml
 artisan
-composer.json
-composer.lock
-package-lock.json
-package.json
 routes/channels.php
 routes/console.php
 .editorconfig
