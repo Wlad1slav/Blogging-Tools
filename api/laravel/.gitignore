@@ -24,7 +24,6 @@ database
 bootstrap
 app/*
 !app/Http
-app/Http/Middleware
 app/Http/Kernel.php
 tests
 phpunit.xml
