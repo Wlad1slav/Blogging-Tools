@@ -78,7 +78,7 @@ export default function Create(props) {
                         id="title"
                         type="text"
                         name="title"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full rounded-md"
                         isFocused={false}
                         onChange={handleOnChange}
                     />
@@ -92,7 +92,7 @@ export default function Create(props) {
                     <TextareaInput
                         id="content"
                         name="content"
-                        className="mt-1 block w-full mb-6"
+                        className="mt-1 block w-full mb-6 rounded-md"
                         isFocused={false}
                         onChange={handleOnChange}
                         required
@@ -101,31 +101,33 @@ export default function Create(props) {
                     <InputError message={errors.content} className="mt-2" />
                 </div>
 
-                <div className='mb-6'>
-                    <InputLabel htmlFor="images" value="Post Images" />
+                <div className='flex justify-between'>
+                    <div>
+                        <InputLabel htmlFor="images" value="Post Images" />
 
-                    <TextInput
-                        id="images"
-                        type="file"
-                        name="images"
-                        accept="image/*"
-                        className='mb-6'
-                        multiple
-                        isFocused={false}
-                        onChange={handleOnChange}
-                    />
+                        <TextInput
+                            id="images"
+                            type="file"
+                            name="images"
+                            accept="image/*"
+                            className='mb-6'
+                            multiple
+                            isFocused={false}
+                            onChange={handleOnChange}
+                        />
 
-                    <InputError message={errors.title} className="mt-2" />
+                        <InputError message={errors.title} className="mt-2" />
+                    </div>
+
+                    <div className="flex items-center justify-end mt-4">
+                        <PrimaryButton className="ml-4" disabled={processing}>
+                            Save
+                        </PrimaryButton>
+                    </div>
                 </div>
 
                 <div>
                     { successful ? <Alert message='Post created' className="mt-2" /> : ''}
-                </div>
-
-                <div className="flex items-center justify-end mt-4">
-                    <PrimaryButton className="ml-4" disabled={processing}>
-                        Save
-                    </PrimaryButton>
                 </div>
             </form>
         </AuthenticatedLayout>
