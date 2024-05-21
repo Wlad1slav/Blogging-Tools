@@ -31,11 +31,32 @@ class PostCreateController extends Controller
      */
     public function store(Request $request): void
     {
-        date_default_timezone_set('Europe/Kiev');
+
+        $request->validate([
+            'title' => 'string|max:255',
+            'content' => 'required|string',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        // Paths to images
+        $images = [];
+        if($request->hasfile('images'))
+        {
+            foreach($request->file('images') as $file)
+            {
+                $fileName = time().rand(1,100).'.'.$file->extension();
+                $file->move(public_path('images'), $fileName);
+
+                // Saving the file name in an array of all images
+                $images[] .= $fileName;
+            }
+        }
+
+        date_default_timezone_set(env('TIME_ZONE'));
 
         DB::insert(
             'INSERT INTO `posts` (`title`, `text`, `images`, `created_at`) VALUES (?, ?, ?, ?)',
-            [$request['title'] ?? null, $request['content'] ?? '', json_encode($request['images'] ?? []), date('Y-m-d H:i:s')]
+            [$request['title'] ?? null, $request['content'] ?? '', json_encode($images), date('Y-m-d H:i:s')]
         );
     }
 

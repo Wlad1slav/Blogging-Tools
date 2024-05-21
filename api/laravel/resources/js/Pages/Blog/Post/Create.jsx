@@ -15,19 +15,42 @@ export default function Create(props) {
         content: '',
     });
 
+    // The variable that follows whether the created post was correct
     const [successful, setSuccessful] = useState(false);
 
+    // Data storage
     const handleOnChange = (event) => {
-        setData(event.target.name, event.target.value);
+        if (event.target.name === 'images') {
+            setData(event.target.name, event.target.files);
+        } else {
+            setData(event.target.name, event.target.value);
+        }
     };
 
+    // When saving a post
     const submit = (e) => {
         e.preventDefault();
 
-        axios.post(route('blog.post.store'), data)
-            .then(async response => {
+        // Creation of an object with all parameters that will be transferred to the server
+        const formData = new FormData();
+        formData.append('title', data.title);
+        formData.append('content', data.content);
+
+        // Inclusion in the parameters of all images
+        if (data.images) {
+            for (let i = 0; i < data.images.length; i++) {
+                formData.append('images[]', data.images[i]);
+            }
+        }
+
+        axios.post(route('blog.post.store'), formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(async response => {
+                console.log(response.data);
                 if (response.status === 200) {
-                    successfulCreation();
+                    successfulCreation(); // Message about the successful saving of the post
                 }
             })
             .catch(error => {
@@ -47,7 +70,7 @@ export default function Create(props) {
         >
             <Head title="Create new post" />
 
-            <form onSubmit={submit} className={'p-64 pt-10 pb-10'}>
+            <form onSubmit={submit} className={'p-64 pt-10 pb-10'} encType="multipart/form-data">
                 <div className='mb-6'>
                     <InputLabel htmlFor="title" value="Post Title" />
 
@@ -69,16 +92,34 @@ export default function Create(props) {
                     <TextareaInput
                         id="content"
                         name="content"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full mb-6"
                         isFocused={false}
                         onChange={handleOnChange}
+                        required
                     />
 
                     <InputError message={errors.content} className="mt-2" />
                 </div>
 
+                <div className='mb-6'>
+                    <InputLabel htmlFor="images" value="Post Images" />
+
+                    <TextInput
+                        id="images"
+                        type="file"
+                        name="images"
+                        accept="image/*"
+                        className='mb-6'
+                        multiple
+                        isFocused={false}
+                        onChange={handleOnChange}
+                    />
+
+                    <InputError message={errors.title} className="mt-2" />
+                </div>
+
                 <div>
-                    { successful ? <Alert message='Post Created' className="mt-2" /> : ''}
+                    { successful ? <Alert message='Post created' className="mt-2" /> : ''}
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
