@@ -38,14 +38,15 @@ class PostCreateController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Paths to images
-        $images = [];
+        $images = []; // Paths to images
+
         if($request->hasfile('images'))
         {
             foreach($request->file('images') as $file)
             {
+                $fileDirectory = env('PUBLIC_DIRECTORY_FULL_PATH').'/images';
                 $fileName = time().rand(1,100).'.'.$file->extension();
-                $file->move(public_path('images'), $fileName);
+                $file->move($fileDirectory, $fileName); // Save the file
 
                 // Saving the file name in an array of all images
                 $images[] .= $fileName;
