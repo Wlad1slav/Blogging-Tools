@@ -22,6 +22,7 @@ export default function Create(props) {
 
     // Record errors when executing the form
     const [errors, setErrors] = useState({});
+    const [error, setError] = useState('');
 
     // Data storage
     const handleOnChange = (event) => {
@@ -60,7 +61,7 @@ export default function Create(props) {
             .catch(error => {
                 console.log(error);
                 setErrors(error.response.data.errors);
-                console.log('errors');
+                setError(error.response.data.message);
                 setSuccessful(false);
             });
     };
@@ -86,7 +87,7 @@ export default function Create(props) {
                         onChange={handleOnChange}
                     />
 
-                    <InputError message={errors.title} className="mt-2" />
+                    <InputError message={errors?.title} className="mt-2" />
                 </div>
 
                 <div>
@@ -101,7 +102,7 @@ export default function Create(props) {
                         required
                     />
 
-                    <InputError message={errors.content} className="mt-2" />
+                    <InputError message={errors?.content} className="mt-2" />
                 </div>
 
                 <div className='flex justify-between form-footer'>
@@ -119,7 +120,7 @@ export default function Create(props) {
                             onChange={handleOnChange}
                         />
 
-                        <InputError message={errors.images} className="mt-2" />
+                        <InputError message={errors?.images} className="mt-2" />
                     </div>
 
                     <div className="flex items-center justify-end mt-4">
@@ -131,6 +132,7 @@ export default function Create(props) {
 
                 <div>
                     { successful ? <Alert message='Post created' className="mt-2" /> : ''}
+                    <InputError message={error ?? ''} className="mt-2" />
                 </div>
             </form>
         </AuthenticatedLayout>
