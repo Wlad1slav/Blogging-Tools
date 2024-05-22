@@ -33,7 +33,7 @@ class PostCreateController extends Controller
     {
 
         $request->validate([
-            'title' => 'string|max:255',
+            'title' => 'max:255',
             'content' => 'required|string',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
