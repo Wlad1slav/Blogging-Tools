@@ -1,0 +1,12 @@
+.create-form {
+    padding: 2% 10%;
+    width: 100%;
+
+    @media only screen and (max-width: 768px) {
+        padding: 10px 5px;
+
+        .form-footer {
+            flex-direction: column;
+        }
+    }
+}

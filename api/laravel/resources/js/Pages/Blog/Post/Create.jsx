@@ -8,6 +8,8 @@ import TextareaInput from "@/Components/TextareaInput";
 import {useState} from "react";
 import Alert from "@/Components/Alert";
 
+import '../../../../scss/blog/post/create.scss';
+
 export default function Create(props) {
 
     const { data, setData, processing  } = useForm({
@@ -71,7 +73,7 @@ export default function Create(props) {
         >
             <Head title="Create new post" />
 
-            <form onSubmit={submit} className={'p-64 pt-10 pb-10'} encType="multipart/form-data">
+            <form onSubmit={submit} className='create-form' encType="multipart/form-data">
                 <div className='mb-6'>
                     <InputLabel htmlFor="title" value="Post Title" />
 
@@ -102,7 +104,7 @@ export default function Create(props) {
                     <InputError message={errors.content} className="mt-2" />
                 </div>
 
-                <div className='flex justify-between'>
+                <div className='flex justify-between form-footer'>
                     <div>
                         <InputLabel htmlFor="images" value="Post Images" />
 
