@@ -10,13 +10,16 @@ import Alert from "@/Components/Alert";
 
 export default function Create(props) {
 
-    const { data, setData, processing, errors  } = useForm({
+    const { data, setData, processing  } = useForm({
         title: '',
         content: '',
     });
 
     // The variable that follows whether the created post was correct
     const [successful, setSuccessful] = useState(false);
+
+    // Record errors when executing the form
+    const [errors, setErrors] = useState({});
 
     // Data storage
     const handleOnChange = (event) => {
@@ -48,19 +51,17 @@ export default function Create(props) {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(async response => {
-                console.log(response.data);
                 if (response.status === 200) {
-                    successfulCreation(); // Message about the successful saving of the post
+                    setSuccessful(true); // Message about the successful saving of the post
                 }
             })
             .catch(error => {
                 console.log(error);
+                setErrors(error.response.data.errors);
+                console.log('errors');
+                setSuccessful(false);
             });
     };
-
-    const successfulCreation = () => {
-        setSuccessful(true);
-    }
 
     return (
         <AuthenticatedLayout
@@ -116,7 +117,7 @@ export default function Create(props) {
                             onChange={handleOnChange}
                         />
 
-                        <InputError message={errors.title} className="mt-2" />
+                        <InputError message={errors.images} className="mt-2" />
                     </div>
 
                     <div className="flex items-center justify-end mt-4">
