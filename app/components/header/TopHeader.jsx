@@ -1,4 +1,5 @@
 import './styles/top.scss';
+import {Avatar} from "@/app/components/header/Avatar";
 
 export function TopHeader({info}) {
 
@@ -19,7 +20,9 @@ export function TopHeader({info}) {
 
     return (
         <header>
-            <img src="/images/avatar.gif" alt="" className="avatar"/>
+            <a href="/">
+                <Avatar />
+            </a>
 
             <div className="personal-info">
                 <h1>{info.nickname}</h1>
