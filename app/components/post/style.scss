@@ -1,0 +1,79 @@
+@import "../../stylesheet/variables";
+
+$image-size: 15%;
+
+.post {
+  background-color: $clr-black;
+  padding: $indent-little $indent-small;
+  border-bottom: 2px solid white;
+
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    a {
+      text-decoration: none;
+      color: transparentize($font-color, 0.9);
+    }
+  }
+
+  .content, .images {
+    margin-bottom: $indent-little;
+
+    p {
+      margin-bottom: $indent-small;
+    }
+  }
+
+  h3 {
+    margin-bottom: $indent-small;
+  }
+
+  .images {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+
+    a { width: $image-size; }
+
+    img {
+      width: 100%;
+      transition: 0.1s ease;
+      max-width: 200px;
+
+      &:hover {
+        //opacity: 0.8;
+        cursor: pointer;
+      }
+    }
+
+    &.image-1 {
+      a { width: 50%; }
+      img {
+        max-width: 600px;
+      }
+    }
+
+    &.image-2 {
+      a { width: 40%; }
+      img {
+        max-width: 500px;
+      }
+    }
+
+    &.image-3 {
+      a { width: 30%; }
+      img {
+        max-width: 300px;
+      }
+    }
+  }
+
+  .datetime {
+    text-align: right;
+    font-size: $font-size - 4;
+    color: transparentize($font-color, 0.5);
+  }
+}

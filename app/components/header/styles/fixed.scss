@@ -1,0 +1,46 @@
+@import "../../../stylesheet/variables";
+
+header.fixed {
+  width: 100%;
+  position: fixed;
+  gap: 30px;
+
+  @media only screen and (max-width: 600px) {
+    flex-direction: row;
+  }
+
+  img {
+    width: 5%;
+    border: 2px solid $clr-theme;
+    box-shadow: none;
+
+    @media only screen and (max-width: 600px) {
+      width: 10%;
+    }
+  }
+
+  h1 {
+    font-size: $font-size-heading1/2;
+
+    @media only screen and (min-width: 2000px) {
+      font-size: $font-size-heading1/1.5;
+    }
+
+    @media only screen and (min-width: 2200px) {
+      font-size: $font-size-heading1/1.2;
+    }
+
+    @media only screen and (min-width: 2400px) {
+      font-size: $font-size-heading1;
+    }
+
+    @media only screen and (min-width: 2600px) {
+      font-size: $font-size-heading1*1.2;
+    }
+
+    @media only screen and (min-width: 3500px) {
+      font-size: $font-size-heading1*1.5;
+    }
+  }
+}
+

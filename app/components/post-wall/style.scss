@@ -1,0 +1,11 @@
+@import "../../stylesheet/variables";
+
+.post-wall {
+  margin: 0 15%;
+  background-color: $clr-dark-gray;
+
+  @media only screen and (max-width: 600px) {
+    margin: 0;
+  }
+
+}
