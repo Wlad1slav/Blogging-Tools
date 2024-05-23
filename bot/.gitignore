@@ -1,6 +1,0 @@
-.idea
-
-.env
-/dist
-/node_modules
-sessions.json
