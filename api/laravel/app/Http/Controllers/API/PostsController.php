@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -11,10 +12,15 @@ class PostsController extends Controller
     /*
      * Controller for working with blog's posts
      */
-    public function get(): array
+    public function getAll(): \Illuminate\Database\Eloquent\Collection
     {
         // Returns all blog posts sorted by creation date
-        return DB::select('SELECT * FROM `posts` ORDER BY created_at DESC');
+        return Post::all();
+    }
+
+    public function get(Request $request): Post
+    {
+        return Post::find($request['id']);
     }
 
     public function store(Request $request): void
