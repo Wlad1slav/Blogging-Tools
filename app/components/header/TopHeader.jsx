@@ -5,12 +5,12 @@ export function TopHeader({info}) {
 
     // Converting the blog description to several paragraphs
     const description = info && info.description ? info.description.split('\n').map((paragraph, index) =>
-        <p key={index}>{paragraph}</p>
+        <span key={index}>{paragraph}</span>
     ) : '';
 
     // Converting the bio to several paragraphs
     const bio = info && info.bio ? info.bio.split('\n').map((paragraph, index) =>
-        <p key={index}>{paragraph}</p>
+        <span key={index}>{paragraph}</span>
     ) : '';
 
     // Converting an object with links to an ul-list of links
