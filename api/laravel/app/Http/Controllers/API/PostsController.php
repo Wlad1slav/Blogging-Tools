@@ -6,33 +6,54 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
+/**
+ * Controller for working with blog's posts
+ */
 class PostsController extends Controller
 {
-    /*
-     * Controller for working with blog's posts
-     */
+
     public function getAll(): \Illuminate\Database\Eloquent\Collection
     {
         // Returns all blog posts sorted by creation date
-        return Post::all();
+        return Post::orderBy('created_at', 'desc')->get();
     }
 
     public function get(Request $request): Post
     {
+        $request->validate([
+            'id' => ['exists:posts'],
+        ]);
+
         return Post::find($request['id']);
     }
 
-    public function store(Request $request): void
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * API request to create a new post
+     */
+    public function store(Request $request): mixed
     {
-        date_default_timezone_set('Europe/Kiev');
+        // Validates the API key
+        if (env('APP_KEY') !== $request['key']) {
+            // If the key is incorrect, returns an error
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
 
-        if (env('APP_KEY') === $request['key'])
-            // Insert a new post to the database
-            DB::insert(
-                'INSERT INTO `posts` (`title`, `text`, `images`, `created_at`) VALUES (?, ?, ?, ?)',
-                [$request['title'] ?? null, $request['content'] ?? '', json_encode($request['images']) ?? null, date('Y-m-d H:i:s')]
-            );
-        else abort(403, 'Invalid API key.');
+        $request->validate([
+            'title' => ['max:255', 'nullable'],
+            'content' => ['required'],
+            'images' => ['nullable'],
+        ]);
+
+        return Post::create([
+            'title' => $request['title'],
+            'text' => $request['content'],
+            'images' => json_encode($request['images']),
+            'created_at' => date('Y-m-d H:i:s')
+        ]);
     }
 }
