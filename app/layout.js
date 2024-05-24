@@ -1,25 +1,20 @@
-import { Inter } from "next/font/google";
+import {Header} from "@/app/components/header/Header";
 
-import "./stylesheet/app.scss";
+import metaData from "@/app/metaData";
 
-import {Header} from "./components/header/Header";
 
-import {metadata} from "@/app/metadata";
-
-const inter = Inter({ subsets: ["latin"] });
+export const metadata = {
+  title: metaData.title,
+  description: metaData.description,
+}
 
 export default function RootLayout({ children }) {
   return (
-      <html lang="en">
-          <head>
-              <title>{metadata.title}</title>
-              <link rel="icon" href="/favicon.ico" />
-          </head>
-
-          <body className={inter.className}>
-              <Header />
-              {children}
-          </body>
-      </html>
-  );
+    <html lang="en">
+      <body>
+        <Header />
+        {children}
+      </body>
+    </html>
+  )
 }
