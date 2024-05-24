@@ -77,3 +77,8 @@ $image-size: 15%;
     color: transparentize($font-color, 0.5);
   }
 }
+
+.alerts {
+  background-color: purple;
+  padding: $indent-little $indent-small;
+}

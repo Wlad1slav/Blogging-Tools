@@ -25,7 +25,7 @@ export function Post({post}) {
         <div className="post">
             <div className='head'>
                 <h3>{post.title}</h3>
-                <a href="/">{post.id}</a>
+                <a href={`/post/${post.id}`}>{post.id}</a>
             </div>
             <div className="content">
                 {content}
