@@ -31,14 +31,24 @@ const fetchPostData = async (id) => {
  * The first 320 characters of the post text are set as the meta description.
  *
  * @param params
+ * @param parent
  * @returns {Promise<{title: (string|*)}|{title: string}>}
  */
-export async function generateMetadata({ params }) {
+export async function generateMetadata({ params }, parent) {
     const post = await fetchPostData(params.id);
 
+    const previousImages = (await parent).openGraph?.images || [];
+    const title = post.title ?? (post.text.length > 70 ? post.text.substring(0, 70) : post.text);
+    const metaDescription = post.text.length > 320 ? post.text.substring(0, 320) : post.text;
+
     return {
-        title: post.title ?? (post.text.length > 70 ? post.text.substring(0, 70) : post.text),
-        description: post.text.length > 320 ? post.text.substring(0, 320) : post.text,
+        title: title,
+        description: metaDescription,
+        openGraph: {
+            title: title,
+            description: metaDescription,
+            images: [...previousImages],
+        },
     };
 }
 
