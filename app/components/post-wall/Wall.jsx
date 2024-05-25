@@ -1,34 +1,43 @@
-'use client'
+import axios from "axios";
 
 import './style.scss';
 
 import Post from "@/app/components/post/Post";
 
-import {useEffect, useState} from "react";
-import axios from "axios";
 
-export function Wall() {
+/**
+ * Fetches posts data from the API
+ *
+ * @returns {Promise<any|[{}]>}
+ */
+const fetchPostsData = async () => {
+    const apiRequest = `${process.env.NEXT_PUBLIC_API_BASE_URL}/posts`;
+    try {
+        const response = await axios.get(apiRequest);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching posts:", error);
+        return [{}];
+    }
+};
 
-    const [gotPosts, setGotPosts] = useState();
+/**
+ * Component that fetches and displays a wall of posts
+ *
+ * @returns {Promise<JSX.Element>}
+ * @constructor
+ */
+export async function Wall() {
 
-    useEffect(() => {
-        // Get all posts via api
-        axios.get(process.env.NEXT_PUBLIC_API_BASE_URL + '/posts')
-            .then(response => {
-                setGotPosts(response.data);
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    }, []);
+    const postsArray = await fetchPostsData();
 
-    const posts = (gotPosts ?? [{}]).map(post =>
-        <Post key={post.id} post={post} />
+    const postsElements = postsArray.map(post =>
+        <Post key={post.id} post={post}/> // Mapping each post to a Post component
     );
 
     return (
         <div className="post-wall">
-            {posts}
+            {postsElements}
         </div>
     );
 }
