@@ -1,14 +1,22 @@
+import './style.scss'
+
 export function Post({post}) {
 
-    // Converting an array of image references to an array of image elements
-    const images = JSON.parse(post?.images ?? '[]').map(image =>
-        <a href={process.env.REACT_APP_IMAGES_PATH + image}>
-            <img src={process.env.REACT_APP_IMAGES_PATH + image} alt=""/>
-        </a>
-    );
+    let images = [];
+    try {
+        // Mapping each image
+        images = JSON.parse(post?.images ?? '[]').map(image =>
+            <a key={image} href={process.env.NEXT_PUBLIC_IMAGES_PATH + image}>
+                <img src={process.env.NEXT_PUBLIC_IMAGES_PATH + image} alt="" />
+            </a>
+        );
+    } catch (error) {
+        console.error('Failed to parse images JSON:', error);
+        images = [];
+    }
 
-    const content = post?.text?.split('\n').map(paragraph =>
-        <p>{paragraph}</p>
+    const content = post?.text?.split('\n').map((paragraph, index) =>
+        <p key={index}>{paragraph}</p> // Mapping each paragraph to content
     );
 
     const postCreatedAt = new Date(post?.created_at);
@@ -17,7 +25,7 @@ export function Post({post}) {
         <div className="post">
             <div className='head'>
                 <h3>{post.title}</h3>
-                <a href="/">{post.id}</a>
+                <a href={`/post/${post.id}`}>{post.id}</a>
             </div>
             <div className="content">
                 {content}
