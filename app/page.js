@@ -9,7 +9,7 @@ import axios from "axios";
  * @returns {Promise<any|[{}]>}
  */
 const fetchPostsData = async () => {
-    const apiRequest = `${process.env.NEXT_PUBLIC_API_BASE_URL}/posts`;
+    const apiRequest = `${process.env.NEXT_PUBLIC_API_BASE_URL}/posts?_=${new Date().getTime()}`;
     try {
         const response = await axios.get(apiRequest);
         return response.data;
