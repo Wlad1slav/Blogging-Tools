@@ -1,23 +1,28 @@
-import Wall from "@/app/components/post-wall/Wall";
-
 import './stylesheet/app.scss';
 import axios from "axios";
+import WallClientSide from "@/app/components/post-wall/WallClientSide";
 
-/**
- * Fetches posts data via API
- *
- * @returns {Promise<any|[{}]>}
- */
-const fetchPostsData = async () => {
-    const apiRequest = `${process.env.NEXT_PUBLIC_API_BASE_URL}/posts?_=${new Date().getTime()}`;
-    try {
-        const response = await axios.get(apiRequest);
-        return response.data;
-    } catch (error) {
-        console.error("Error fetching posts:", error);
-        return [{}];
-    }
-};
+// /**
+//  * Fetches posts data via API
+//  *
+//  * @returns {Promise<any|[{}]>}
+//  */
+// const fetchPostsData = async () => {
+//     const apiRequest = `${process.env.NEXT_PUBLIC_API_BASE_URL}/posts?_=${new Date().getTime()}`;
+//     try {
+//         const response = await axios.get(apiRequest, {
+//             headers: {
+//                 'Cache-Control': 'no-cache',
+//                 'Pragma': 'no-cache',
+//                 'Expires': '0',
+//             },
+//         });
+//         return response.data;
+//     } catch (error) {
+//         console.error("Error fetching posts:", error);
+//         return [{}];
+//     }
+// };
 
 /**
  * Fetches blog info via API
@@ -33,19 +38,20 @@ const fetchBlogInfo = async () => {
     }
 };
 
-/**
- * Receiving data from the database without caching
- *
- * @returns {Promise<{props: {posts: (*|{}[])}}>}
- */
-export const getServerSideProps = async () => {
-    const postsArray = await fetchPostsData();
-    return {
-        props: {
-            posts: postsArray,
-        },
-    };
-};
+// /**
+//  *
+//  * @returns {Promise<{props: {posts: (*|{}[])}}>}
+//  */
+// export const getServerSideProps = async () => {
+//     const postsArray = await fetchPostsData();
+//     return {
+//         props: {
+//             posts: postsArray,
+//         },
+//         // This option allows the page to revalidate every time there is a request
+//         revalidate: 1,
+//     };
+// };
 
 /**
  * Creating page metadata. The name of the blog is taken as the title,
@@ -72,10 +78,11 @@ export async function generateMetadata() {
 }
 
 export default async function Home() {
-    const posts = (await getServerSideProps()).props.posts;
+    // const { props: { posts } } = await getServerSideProps();
     return (
         <>
-            <Wall posts={posts}/>
+            {/*<Wall posts={posts}/>*/}
+            <WallClientSide />
         </>
     );
 }
