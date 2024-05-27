@@ -20,7 +20,7 @@ const fetchPostData = async (id) => {
             title: "Post not found",
             text: "",
             created_at: "",
-            images: [],
+            images: '[]',
         };
     }
 };
@@ -34,12 +34,17 @@ const fetchPostData = async (id) => {
  * @param parent
  * @returns {Promise<{title: (string|*)}|{title: string}>}
  */
-export async function generateMetadata({ params }, parent) {
+export async function generateMetadata({ params }) {
     const post = await fetchPostData(params.id);
 
-    const previousImages = (await parent).openGraph?.images || [];
     const title = post.title ?? (post.text.length > 70 ? post.text.substring(0, 70) : post.text);
     const metaDescription = post.text.length > 320 ? post.text.substring(0, 320) : post.text;
+
+    // Converting a JSON string with an array of image names to an array of image links
+    const imagesNames = JSON.parse(post.images ?? '[]');
+    const images = imagesNames.map(image => {
+        return `${process.env.NEXT_PUBLIC_IMAGES_PATH + image}`;
+    });
 
     return {
         metadataBase: new URL('https://vladrasik.netlify.app'),
@@ -48,7 +53,7 @@ export async function generateMetadata({ params }, parent) {
         openGraph: {
             title: title,
             description: metaDescription,
-            images: [...previousImages],
+            images: images,
         },
     };
 }
