@@ -34,7 +34,6 @@ const fetchBlogInfo = async () => {
 };
 
 /**
- * Receiving data from the database without caching
  *
  * @returns {Promise<{props: {posts: (*|{}[])}}>}
  */
@@ -44,6 +43,8 @@ export const getServerSideProps = async () => {
         props: {
             posts: postsArray,
         },
+        // This option allows the page to revalidate every time there is a request
+        revalidate: 1,
     };
 };
 
@@ -72,10 +73,9 @@ export async function generateMetadata() {
 }
 
 export default async function Home() {
-    const posts = (await getServerSideProps()).props.posts;
+    const { props: { posts } } = await getServerSideProps();
     return (
         <>
-            {posts[0].text}
             <Wall posts={posts}/>
         </>
     );
