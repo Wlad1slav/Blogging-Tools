@@ -75,6 +75,7 @@ export default async function Home() {
     const posts = (await getServerSideProps()).props.posts;
     return (
         <>
+            {posts[0].text}
             <Wall posts={posts}/>
         </>
     );
