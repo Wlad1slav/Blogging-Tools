@@ -31,17 +31,18 @@ $image-size: 15%;
   }
 
   .images {
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-    align-items: flex-start;
+    display: inline-grid;
+    grid-template-columns: auto auto auto auto;
+    column-gap: 10px;
 
     a { width: $image-size; }
 
     img {
-      width: 100%;
+      width: auto;
       transition: 0.1s ease;
       max-width: 200px;
+      max-height: 260px;
+      image-rendering: pixelated;
 
       &:hover {
         //opacity: 0.8;
