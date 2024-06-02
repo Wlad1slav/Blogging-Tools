@@ -1,7 +1,5 @@
 @import "../../stylesheet/variables";
 
-$image-size: 15%;
-
 .post {
   background-color: $clr-black;
   padding: $indent-little $indent-small;
@@ -31,17 +29,17 @@ $image-size: 15%;
   }
 
   .images {
-    display: inline-grid;
-    grid-template-columns: auto auto auto auto;
-    column-gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
 
-    a { width: $image-size; }
+    //a { width: 100%; }
 
     img {
-      width: auto;
+      width: 100%;
+      height: 280px;
       transition: 0.1s ease;
-      max-width: 200px;
-      max-height: 260px;
+      //max-width: 200px;
       image-rendering: pixelated;
 
       &:hover {
@@ -50,26 +48,26 @@ $image-size: 15%;
       }
     }
 
-    &.image-1 {
-      a { width: 50%; }
-      img {
-        max-width: 600px;
-      }
-    }
-
-    &.image-2 {
-      a { width: 40%; }
-      img {
-        max-width: 500px;
-      }
-    }
-
-    &.image-3 {
-      a { width: 30%; }
-      img {
-        max-width: 300px;
-      }
-    }
+    //&.image-1 {
+    //  a { width: 50%; }
+    //  img {
+    //    max-width: 600px;
+    //  }
+    //}
+    //
+    //&.image-2 {
+    //  a { width: 40%; }
+    //  img {
+    //    max-width: 500px;
+    //  }
+    //}
+    //
+    //&.image-3 {
+    //  a { width: 30%; }
+    //  img {
+    //    max-width: 300px;
+    //  }
+    //}
   }
 
   .datetime {
